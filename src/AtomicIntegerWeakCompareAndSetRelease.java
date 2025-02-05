@@ -2,16 +2,15 @@ import java.util.concurrent.atomic.AtomicIntegerArray;
 
 public class AtomicIntegerWeakCompareAndSetRelease {
     public static void main(String[] args) {
-        AtomicIntegerArray atomicArray = new AtomicIntegerArray(new int[]{10, 20, 30});
+        AtomicIntegerArray atomicArray = new AtomicIntegerArray(new int[]{10, 20, 30, 40, 50});
 
-        int index = 1;       // Target index
-        int expected = 20;   // Expected value at index 1
-        int newValue = 50;   // New value to set
+        int index = 2;
+        int expectedValue = 30;
+        int newValue = 60;
 
-        // Perform weakCompareAndSetAcquire
-        boolean isUpdated = atomicArray.weakCompareAndSetAcquire(index, expected, newValue);
+        // Attempt to update using weakCompareAndSetRelease
+        boolean isUpdated = atomicArray.weakCompareAndSetRelease(index, expectedValue, newValue);
 
-        // Print results
         System.out.println("Update successful? " + isUpdated);
         System.out.println("New value at index " + index + ": " + atomicArray.get(index));
 

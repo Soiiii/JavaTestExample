@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ToUnmodifiableListTest {
+public class CollectorsToUnmodifiableList {
     public static void main(String[] args) {
         // Test data
 //        List<String> data = List.of("apple", "banana", "cherry", "date");

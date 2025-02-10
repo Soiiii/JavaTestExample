@@ -1,13 +1,13 @@
 import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class AtomiclongSetOpaque {
 
     private static final AtomicIntegerArray atomicArray = new AtomicIntegerArray(5);
 
     public static void main(String[] args) throws InterruptedException {
-        AtomicIntegerArray atomicArray = new AtomicIntegerArray(5);
-        atomicArray.setOpaque(2, 42);
-        int value = atomicArray.get(2);
-        System.out.println("Value at index 2: " + value);
+        AtomicLong atomicLong = new AtomicLong(10);
+        atomicLong.setOpaque(20); // Write with relaxed (opaque) semantics
+        System.out.println("Value after setOpaque: " + atomicLong.get());
     }
 }

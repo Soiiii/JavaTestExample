@@ -1,10 +1,21 @@
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 public class ZipEntryTest {
 
+    public static void main(String[] args) {
+
+        ZipEntry entry = new ZipEntry("example.txt");
+
+        long currentTimeMillis = System.currentTimeMillis();
+        entry.setTime(currentTimeMillis);
+
+        LocalDateTime localDateTime = entry.getTimeLocal();
+
+        System.out.println("Zip Entry Name: " + entry.getName());
+        System.out.println("Timestamp (milliseconds): " + currentTimeMillis);
+        System.out.println("LocalDateTime: " + localDateTime);
+    }
 //    public static void main(String[] args) {
 //        ZipEntry entry = new ZipEntry("example.txt");
 //
@@ -21,22 +32,22 @@ public class ZipEntryTest {
 
 
     // sample 1
-    public static void main(String[] args) {
-        String zipFileName = "output.zip";
-
-        try (FileOutputStream fos = new FileOutputStream(zipFileName); ZipOutputStream zos = new ZipOutputStream(fos)) {
-            ZipEntry entry = new ZipEntry("example.txt");
-            entry.setTime(System.currentTimeMillis());
-            zos.putNextEntry(entry);
-            zos.write("zip file".getBytes());
-            zos.closeEntry();
-
-            System.out.println("ZIP File Created: " + zipFileName);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        String zipFileName = "output.zip";
+//
+//        try (FileOutputStream fos = new FileOutputStream(zipFileName); ZipOutputStream zos = new ZipOutputStream(fos)) {
+//            ZipEntry entry = new ZipEntry("example.txt");
+//            entry.setTime(System.currentTimeMillis());
+//            zos.putNextEntry(entry);
+//            zos.write("zip file".getBytes());
+//            zos.closeEntry();
+//
+//            System.out.println("ZIP File Created: " + zipFileName);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     // sample 2

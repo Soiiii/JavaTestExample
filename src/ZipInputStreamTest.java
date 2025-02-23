@@ -80,7 +80,9 @@ public class ZipInputStreamTest {
     }
 
     public static void main(String[] args) {
-        String zipFilePath = "/Users/baeksoyoung/Downloads/output.zip";
+//        String zipFilePath = "/Users/baeksoyoung/Downloads/output.zip";
+        String zipFilePath = "/Users/baeksoyoung/Downloads";
+// String zipFilePath = "/home/soyoung.baek/Downloads/test_file.zip";
         File file = new File(zipFilePath);
         if (!file.exists()) {
             System.err.println("Error: File " + zipFilePath + " does not exist!");

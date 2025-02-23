@@ -5,27 +5,64 @@ public class ZipEntryTest {
 
     public static void main(String[] args) {
 
-        ZipEntry entry = new ZipEntry("example.txt");
-
-        long currentTimeMillis = System.currentTimeMillis();
-        entry.setTime(currentTimeMillis);
-
-        LocalDateTime localDateTime = entry.getTimeLocal();
-
-        System.out.println("Zip Entry Name: " + entry.getName());
-        System.out.println("Timestamp (milliseconds): " + currentTimeMillis);
-        System.out.println("LocalDateTime: " + localDateTime);
+        ZipEntryTest test = new ZipEntryTest();
+        test.setTimeLocalExample();
+        test.getTimeLocalExample();
     }
+
+        // Method to set time using LocalDateTime
+        public void setTimeLocalExample () {
+        try {
+            // Create a ZIP entry
+            ZipEntry entry = new ZipEntry("example.txt");
+
+            // Set time using LocalDateTime
+            LocalDateTime now = LocalDateTime.now();
+            entry.setTimeLocal(now);
+
+            // Print the set time
+            System.out.println("setTimeLocal(LocalDateTime) called. Time set: " + now);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+        // Method to get time using LocalDateTime
+        public void getTimeLocalExample () {
+//        try {
+//            // Create a ZIP entry
+//            ZipEntry entry = new ZipEntry("example.txt");
+//
+//            // Set an initial time
+//            LocalDateTime initialTime = LocalDateTime.of(2024, 2, 19, 15, 30);
+//            entry.setTimeLocal(initialTime);
+//
+//            // Get the time using getTimeLocal()
+//            LocalDateTime retrievedTime = entry.getTimeLocal();
+//            System.out.println("getTimeLocal() called. Retrieved time: " + retrievedTime);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+            ZipEntry entry = new ZipEntry("example.txt");
+            LocalDateTime time = LocalDateTime.of(2025, 2, 19, 15, 30); // Ensure valid month
+            entry.setTimeLocal(time);
+            System.out.println("Stored LocalDateTime: " + entry.getTimeLocal());
+
+        }
+
+
 //    public static void main(String[] args) {
+//
 //        ZipEntry entry = new ZipEntry("example.txt");
 //
-//        // Set time
-//        entry.setTime(System.currentTimeMillis());
-//        System.out.println("Entry:" + entry);
+//        long currentTimeMillis = System.currentTimeMillis();
+//        entry.setTime(currentTimeMillis);
 //
-//        // Get LocalDateTime
-//        LocalDateTime time = getTimeLocal(entry);
-//        System.out.println("Local Time: " + time);
+//        LocalDateTime localDateTime = entry.getTimeLocal();
+//
+//        System.out.println("Zip Entry Name: " + entry.getName());
+//        System.out.println("Timestamp (milliseconds): " + currentTimeMillis);
+//        System.out.println("LocalDateTime: " + localDateTime);
 //    }
 
 
@@ -33,20 +70,39 @@ public class ZipEntryTest {
 
     // sample 1
 //    public static void main(String[] args) {
-//        String zipFileName = "output.zip";
+//        String directoryPath = "/Users/baeksoyoung/Downloads";
+//        String zipFilePath = directoryPath + "/output.zip";
 //
-//        try (FileOutputStream fos = new FileOutputStream(zipFileName); ZipOutputStream zos = new ZipOutputStream(fos)) {
+//        // Create directory if it does not exist
+//        File dir = new File(directoryPath);
+//        if (!dir.exists()) {
+//            dir.mkdirs();  // Creates the directory and all necessary parent directories
+//        }
+//
+//        try (FileOutputStream fos = new FileOutputStream(zipFilePath);
+//             ZipOutputStream zos = new ZipOutputStream(fos)) {
+//
 //            ZipEntry entry = new ZipEntry("example.txt");
 //            entry.setTime(System.currentTimeMillis());
 //            zos.putNextEntry(entry);
 //            zos.write("zip file".getBytes());
 //            zos.closeEntry();
 //
-//            System.out.println("ZIP File Created: " + zipFileName);
+//            System.out.println("ZIP File Created at: " + zipFilePath);
 //
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
+
+        // use
+//        ZipEntry entry = new ZipEntry("example.txt");
+//        long currentTimeMillis = System.currentTimeMillis();
+//        entry.setTime(currentTimeMillis);
+//        LocalDateTime localDateTime = entry.getTimeLocal();
+//        System.out.println("Zip Entry Name: " + entry.getName());
+//        System.out.println("Timestamp (milliseconds): " + currentTimeMillis);
+//        System.out.println("LocalDateTime: " + localDateTime);
+
 //    }
 
 
@@ -70,4 +126,5 @@ public class ZipEntryTest {
 //            e.printStackTrace();
 //        }
 //    }
+
 }

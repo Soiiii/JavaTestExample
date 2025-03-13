@@ -1,86 +1,58 @@
-import java.io.*;
-import java.nio.charset.Charset;
-import java.util.concurrent.CompletableFuture;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.stream.Stream;
 
 public class ProcessTest {
-    public static void main(String[] args) {
+
+        public static void main(String[] args) {
         try {
-            Process process = new ProcessBuilder("echo", "Hello, World!").start();
-            ProcessTest processTest = new ProcessTest(process);
+            Process process = new ProcessBuilder("ping", "-c", "4", "google.com").start();
 
-            System.out.println("PID: " + processTest.pid());
-            System.out.println("Process Handle: " + processTest.toHandle());
-            System.out.println("Process Info: " + processTest.info());
+            System.out.println("Process PID: " + process.pid());
+            System.out.println("Supports Normal Termination? " + process.supportsNormalTermination());
 
-            BufferedReader reader = processTest.inputReader();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println("Output: " + line);
-            }
+            // Get process info
+            ProcessHandle.Info info = process.info();
+            System.out.println("Process Info: " + info);
 
+            // Handle input, error, and output streams
+            BufferedReader inputReader = process.inputReader();
+            BufferedReader errorReader = process.errorReader();
+            BufferedWriter outputWriter = process.outputWriter();
+
+            // Read process output
+            System.out.println("\n--- Process Output ---");
+            inputReader.lines().forEach(System.out::println);
+
+            // Read process error (if any)
+            System.out.println("\n--- Process Error Output ---");
+            errorReader.lines().forEach(System.out::println);
+
+            // ProcessHandle and process relationships
+            ProcessHandle processHandle = process.toHandle();
+            System.out.println("Process Handle: " + processHandle);
+            Stream<ProcessHandle> children = processHandle.children();
+            Stream<ProcessHandle> descendants = processHandle.descendants();
+
+            // Printing child processes
+            System.out.println("\nChild Processes:");
+            children.forEach(p -> System.out.println("Child PID: " + p.pid()));
+
+            // Printing descendant processes
+            System.out.println("\nDescendant Processes:");
+            descendants.forEach(p -> System.out.println("Descendant PID: " + p.pid()));
+
+            // Asynchronous process exit handling
+            process.onExit().thenRun(() -> System.out.println("Process has exited."));
+
+            // Wait for process to finish
             process.waitFor();
+            System.out.println("Exit Value: " + process.exitValue());
+
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-
-    private final Process process;
-
-    public ProcessTest(Process process) {
-        this.process = process;
-    }
-
-    public boolean supportsNormalTermination() {
-        throw new UnsupportedOperationException(this.getClass() + ".supportsNormalTermination() not supported");
-    }
-
-    public CompletableFuture<Process> onExit() {
-        return process.onExit();
-    }
-
-    public final BufferedReader errorReader() {
-        return new BufferedReader(new InputStreamReader(process.getErrorStream()));
-    }
-
-    public final BufferedReader errorReader(Charset charset) {
-        return new BufferedReader(new InputStreamReader(process.getErrorStream(), charset));
-    }
-
-    public final BufferedReader inputReader() {
-        return new BufferedReader(new InputStreamReader(process.getInputStream()));
-    }
-
-    public final BufferedReader inputReader(Charset charset) {
-        return new BufferedReader(new InputStreamReader(process.getInputStream(), charset));
-    }
-
-    public final BufferedWriter outputWriter() {
-        return new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
-    }
-
-    public final BufferedWriter outputWriter(Charset charset) {
-        return new BufferedWriter(new OutputStreamWriter(process.getOutputStream(), charset));
-    }
-
-    public ProcessHandle.Info info() {
-        return process.info();
-    }
-
-    public long pid() {
-        return process.pid();
-    }
-
-    public ProcessHandle toHandle() {
-        return process.toHandle();
-    }
-
-    public Stream<ProcessHandle> children() {
-        return process.children();
-    }
-
-    public Stream<ProcessHandle> descendants() {
-        return process.descendants();
-    }
 }

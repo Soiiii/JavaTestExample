@@ -2,7 +2,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ToUnmodifiableSet{
+public class CollectorsToUnmodifiableSet {
     public static void main(String[] args) {
         // Test data
         List<String> fruits = List.of("apple", "banana", "cherry", "date", "apple");
